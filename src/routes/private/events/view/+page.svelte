@@ -1,4 +1,6 @@
 <script>
+	import { updated } from '$app/stores';
+
     export let data;
     console.log(data);
 
@@ -13,7 +15,14 @@
     async function modifyEvent(eventObject){
         selectEvent = eventObject;
         console.log(eventObject);
+        let response = await fetch("?/update",{method:"POST",body:JSON.stringify(selectEvent)})
 
+    }
+    
+    async function updateCounter(){
+    selectEvent.click_counter++;
+       
+    let response = await fetch("?/update",{method:"POST",body:JSON.stringify(selectEvent)})
 
     }
 
@@ -22,7 +31,9 @@
 
 {#if selectEvent!== undefined}
 
-<form class = "eventform" action = "?/create" method="POST">
+
+
+<div class = "eventform" >
 
     <div><label>Name of the Event </label> <input bind:value={selectEvent.title} type = "text" name = "title"></div>
   
@@ -34,22 +45,20 @@
   
     <div><label>Location</label>  <input bind:value={selectEvent.location} type = "text" name = "location"></div>
   
-    <div><label>image_url</label> <input bind:value={selectEvent.title} type= "text" name = "image_url"></div>
+    <div><label>image_url</label> <input bind:value={selectEvent.image_url} type= "text" name = "image_url"></div>
      
-     <div><label>max_attendees</label> <input bind:value={selectEvent.title} type= "text" name = "max_attendees"></div>
+     <div><label>Source Url</label> <input bind:value={selectEvent.source_url} type= "text" name = "max_attendees"></div>
   
-     <div><label>Price</label> <input bind:value={selectEvent.title} type = "text" name ="price"></div>
-  
-     <div><label>Is published</label> <input bind:value={selectEvent.is_published} type= "checkbox" name = "is_published"></div>
-  
+     <div><label>Price</label> <input bind:value={selectEvent.price} type = "text" name ="price"></div>
+     <div><label>Counter</label> <input bind:value={selectEvent.click_counter} type = "text" name ="click_counter">
+    <button on:click={updateCounter}>UpdateCount</button>
+    </div>
+
      
-  
-  
-  
-  
-    <div class= "buttoncontainer"><button>Add Event</button></div>
+  <div></div>
+    <div class= "buttoncontainer" ><button on:click={modifyEvent}>Update</button></div>
    
-  </form>
+</div>
   {/if}
 
 <table>

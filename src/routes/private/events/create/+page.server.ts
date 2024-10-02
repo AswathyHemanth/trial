@@ -15,11 +15,6 @@ export async function load() {
 export const actions = {
 	create: async function (event) {
 		let formDataObject = await event.request.formData();
-		let initials = 'P P';
-		let myString = 'Hello World' + initials;
-
-		let myString2 = `Hello World ${initials}`;
-
 		let startDate = formDataObject.get('start_date');
 		let startTime = formDataObject.get('start_time');
 		let endDate = formDataObject.get('end_date');
@@ -56,18 +51,15 @@ export const actions = {
 
 			image_url: formDataObject.get('image_url'),
 
-			max_attendees: formDataObject.get('max_attendees'),
-
 			price: formDataObject.get('price'),
 
 			is_published: formDataObject.get('is_published') == 'on' ? true : false,
-
-			organizer_id: formDataObject.get('organizer_id')
+			
+			source_url: formDataObject.get('source_url'),
+			
 		};
 		console.log(formDataObject);
 		const { error } = await supabase.from('events').insert(formObject);
-		console.log('=========================>', formObject);
 		return { status: 'success', message: 'Form Submission successfull' };
-		console.log('AAAAAAAAAAAAAAAAASWATHHY', formObject);
 	}
 };
